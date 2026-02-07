@@ -4,19 +4,23 @@ import { connectDB } from "./config/db.js";
 import dotenv from "dotenv"
 import rateLimiter from "./middleware/rateLimiter.js";
 import cors from "cors"
+import path from "path"
 
 dotenv.config();
 const PORT = process.env.PORT || 5001;
 // const express= require("express");if package.json file has no type =module then use this kind of import
 const app = express();
-
+const __dirname =path.resolve()//to make same port of fe and be
 //connectDB();//we connect db first is better befor server run so we use aother method of doing with the server
 
 //middleware
-app.use(cors({ 
-  origin:"http://localhost:5173",
+if(process.env.NODE_ENV !== "production"){
+    app.use(cors({ 
+      origin:"http://localhost:5173",
 
-}));
+    }));
+}
+
 app.use(express.json());// this middleware will parse json bodies:req.body
 app.use(rateLimiter);
 
@@ -29,6 +33,18 @@ app.use(rateLimiter);
 
 
 app.use("/api/notes", notesRoutes);
+
+// last stage as deployment  this is for making front end and backend in same port
+if(process.env.NODE_ENV === "production")
+{
+  app.use(express.static(path.join(__dirname,"../frontend/dist")))
+  app.get("*",(req,res)=>{
+  res.sendFile(path.join(__dirname,"../frontend","dist","index.html"))
+})
+}
+
+
+
 // api creation
 
 // app.get("/api/notes",(req,res)=>{
