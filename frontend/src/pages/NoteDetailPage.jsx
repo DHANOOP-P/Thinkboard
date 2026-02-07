@@ -69,8 +69,8 @@ const NoteDetailPage = () => {
     </div>
    }
   return (
-    <div className='min-h-screen bg-base-200 flex justify-center bg-gradient-to-t from-green-900 to-40% to-black'>
-      <div className='w-[60%] '>
+    <div className='min-h-screen bg-base-200 flex justify-center bg-gradient-to-t from-green-900 to-40% to-black '>
+      <div className='md:w-[60%] w-full '>
 {/* header cpntent */}
       <div className='container mx-auto px-4 py-8 '>
         <div className='flex items-center justify-between mb-6'>
